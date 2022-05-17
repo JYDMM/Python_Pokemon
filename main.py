@@ -22,6 +22,7 @@ __right__ = 'd'
 player_x = width / 2
 player_y = height / 2
 
+
 def move_forward():
     global player_y
     player_y -= 1
@@ -80,4 +81,3 @@ while 1:
 #     screen.fill(black)
 #     screen.blit(ball, ballrect)
 #     pygame.display.flip()
-
