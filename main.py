@@ -26,7 +26,7 @@ player_x = width / 2
 player_y = height / 2
 
 trainer = "trainer.png"
-sprite = SpriteSheet(trainer)
+trainer_sprite = SpriteSheet(trainer)
 
 player_width = 64
 player_height = 64
@@ -38,30 +38,30 @@ is_moving = False
 
 bg_area = 0
 
-walk_left = [sprite.image_at((64 * 0, 64, 64 * 1, 128)),
-             sprite.image_at((64 * 1, 64, 64 * 2, 128)),
-             sprite.image_at((64 * 2, 64, 64 * 3, 128)),
-             sprite.image_at((64 * 3, 64, 64 * 4, 128))]
+walk_left = [trainer_sprite.image_at((64 * 0 + 2, 64, 64 * 1, 64)),
+             trainer_sprite.image_at((64 * 1 + 2, 64, 64 * 2, 64)),
+             trainer_sprite.image_at((64 * 2 + 2, 64, 64 * 3, 64)),
+             trainer_sprite.image_at((64 * 3 + 2, 64, 64 * 4, 64))]
 
-walk_right = [sprite.image_at((64 * 0, 128, 64 * 1, 192)),
-              sprite.image_at((64 * 1, 128, 64 * 2, 192)),
-              sprite.image_at((64 * 2, 128, 64 * 3, 192)),
-              sprite.image_at((64 * 3, 128, 64 * 4, 192))]
+walk_right = [trainer_sprite.image_at((64 * 0, 128, 64 * 1, 128)),
+              trainer_sprite.image_at((64 * 1, 128, 64 * 2, 128)),
+              trainer_sprite.image_at((64 * 2, 128, 64 * 3, 128)),
+              trainer_sprite.image_at((64 * 3, 128, 64 * 4, 128))]
 
-walk_down = [sprite.image_at((64 * 0, 0, 64 * 1, 64)),
-             sprite.image_at((64 * 1, 0, 64 * 2, 64)),
-             sprite.image_at((64 * 2, 0, 64 * 3, 64)),
-             sprite.image_at((64 * 3, 0, 64 * 4, 64))]
+walk_down = [trainer_sprite.image_at((64 * 0, 0, 64 * 1, 64)),
+             trainer_sprite.image_at((64 * 1, 0, 64 * 1.9, 64)),
+             trainer_sprite.image_at((64 * 2, 0, 64 * 2.9, 64)),
+             trainer_sprite.image_at((64 * 3, 0, 64 * 3.9, 64))]
 
-walk_up = [sprite.image_at((64 * 0, 192, 64 * 1, 256)),
-           sprite.image_at((64 * 1, 192, 64 * 2, 256)),
-           sprite.image_at((64 * 2, 192, 64 * 3, 256)),
-           sprite.image_at((64 * 3, 192, 64 * 4, 256))]
+walk_up = [trainer_sprite.image_at((64 * 0, 192, 64 * 1, 192)),
+           trainer_sprite.image_at((64 * 1, 192, 64 * 2, 192)),
+           trainer_sprite.image_at((64 * 2, 192, 64 * 3, 192)),
+           trainer_sprite.image_at((64 * 3, 192, 64 * 4, 192))]
 
-walk_still = [sprite.image_at((64 * 0, 192, 64 * 1, 256)),
-              sprite.image_at((64 * 0, 0, 64 * 1, 64)),
-              sprite.image_at((64 * 0, 64, 64 * 1, 128)),
-              sprite.image_at((64 * 0, 128, 64 * 1, 192))]
+walk_still = [trainer_sprite.image_at((64 * 0, 192, 64 * 1, 192)),
+              trainer_sprite.image_at((64 * 0, 0, 64 * 1, 64)),
+              trainer_sprite.image_at((64 * 0, 64, 64 * 1, 64)),
+              trainer_sprite.image_at((64 * 0, 128, 64, 128))]
 
 bg = [pygame.image.load('sourceimages/spring/grass01ax.png')]
 
