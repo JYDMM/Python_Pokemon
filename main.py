@@ -5,6 +5,7 @@
 
 import pygame
 import sys
+from SpriteSheet import SpriteSheet
 
 pygame.init()
 
@@ -14,59 +15,138 @@ black = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
 
-__forward__ = 'w'
-__backward__ = 's'
-__left__ = 'a'
-__right__ = 'd'
+__up__ = 0
+__down__ = 1
+__left__ = 2
+__right__ = 3
+
+clock = pygame.time.Clock()
 
 player_x = width / 2
 player_y = height / 2
 
+trainer = "trainer.png"
+sprite = SpriteSheet(trainer)
+
+player_width = 64
+player_height = 64
+vel = 5
+frames = 3
+direction = __up__
+walk_count = 0
+is_moving = False
+
+bg_area = 0
+
+walk_left = [sprite.image_at((64 * 0, 64, 64 * 1, 128)),
+             sprite.image_at((64 * 1, 64, 64 * 2, 128)),
+             sprite.image_at((64 * 2, 64, 64 * 3, 128)),
+             sprite.image_at((64 * 3, 64, 64 * 4, 128))]
+
+walk_right = [sprite.image_at((64 * 0, 128, 64 * 1, 192)),
+              sprite.image_at((64 * 1, 128, 64 * 2, 192)),
+              sprite.image_at((64 * 2, 128, 64 * 3, 192)),
+              sprite.image_at((64 * 3, 128, 64 * 4, 192))]
+
+walk_down = [sprite.image_at((64 * 0, 0, 64 * 1, 64)),
+             sprite.image_at((64 * 1, 0, 64 * 2, 64)),
+             sprite.image_at((64 * 2, 0, 64 * 3, 64)),
+             sprite.image_at((64 * 3, 0, 64 * 4, 64))]
+
+walk_up = [sprite.image_at((64 * 0, 192, 64 * 1, 256)),
+           sprite.image_at((64 * 1, 192, 64 * 2, 256)),
+           sprite.image_at((64 * 2, 192, 64 * 3, 256)),
+           sprite.image_at((64 * 3, 192, 64 * 4, 256))]
+
+walk_still = [sprite.image_at((64 * 0, 192, 64 * 1, 256)),
+              sprite.image_at((64 * 0, 0, 64 * 1, 64)),
+              sprite.image_at((64 * 0, 64, 64 * 1, 128)),
+              sprite.image_at((64 * 0, 128, 64 * 1, 192))]
+
+bg = [pygame.image.load('sourceimages/spring/grass01ax.png')]
+
 
 def move_forward():
-    global player_y
-    player_y -= 1
+    global player_y, direction, is_moving
+    player_y -= vel
+    is_moving = True
+    direction = __up__
 
 
 def move_backward():
-    global player_y
-    player_y += 1
+    global player_y, direction, is_moving
+    player_y += vel
+    is_moving = True
+    direction = __down__
 
 
 def move_left():
-    global player_x
-    player_x -= 1
+    global player_x, direction, is_moving
+    player_x -= vel
+    is_moving = True
+    direction = __left__
 
 
 def move_right():
-    global player_x
-    player_x += 1
+    global player_x, direction, is_moving
+    player_x += vel
+    is_moving = True
+    direction = __right__
+
+
+def stop_moving():
+    global is_moving
+    is_moving = False
 
 
 def controls():
-    if pygame.key.get_pressed()[pygame.K_w]:
+    if pygame.key.get_pressed()[pygame.K_w] and player_y > vel:
         move_forward()
-    if pygame.key.get_pressed()[pygame.K_s]:
+    elif pygame.key.get_pressed()[pygame.K_s] and height - player_y > vel:
         move_backward()
-    if pygame.key.get_pressed()[pygame.K_a]:
+    elif pygame.key.get_pressed()[pygame.K_a] and player_x > vel:
         move_left()
-    if pygame.key.get_pressed()[pygame.K_d]:
+    elif pygame.key.get_pressed()[pygame.K_d] and width - player_x > vel:
         move_right()
+    else:
+        stop_moving()
 
 
-ball = pygame.image.load("unnamed.jpg")
-ballrect = ball.get_rect()
+def redraw_game_window():
+    global walk_count, frames
+    screen.fill(black)
+    screen.blit(bg[bg_area], (0, 0))  # draw background
 
-while 1:
+    if walk_count + 1 > 4 * frames:
+        walk_count = 0
+
+    if direction == __left__ and is_moving:
+        screen.blit(walk_left[walk_count // frames], (player_x, player_y))
+        walk_count += 1
+    elif direction == __right__ and is_moving:
+        screen.blit(walk_right[walk_count // frames], (player_x, player_y))
+        walk_count += 1
+    elif direction == __up__ and is_moving:
+        screen.blit(walk_up[walk_count // frames], (player_x, player_y))
+        walk_count += 1
+    elif direction == __down__ and is_moving:
+        screen.blit(walk_down[walk_count//frames], (player_x, player_y))
+        walk_count += 1
+    else:
+        screen.blit(walk_still[direction], (player_x, player_y))
+    pygame.display.flip()
+
+
+# main loop
+run = True
+while run:
+    clock.tick(27)
     controls()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit(69)
-    screen.fill(black)
-    ballrect.center = player_x, player_y
-    screen.blit(ball, ballrect)
-    pygame.display.flip()
 
+    redraw_game_window()
 
 # while 1:
 #     for event in pygame.event.get():
