@@ -38,33 +38,32 @@ is_moving = False
 
 bg_area = 0
 
-walk_left = [trainer_sprite.image_at((64 * 0 + 2, 64, 64 * 1, 64)),
-             trainer_sprite.image_at((64 * 1 + 2, 64, 64 * 2, 64)),
-             trainer_sprite.image_at((64 * 2 + 2, 64, 64 * 3, 64)),
-             trainer_sprite.image_at((64 * 3 + 2, 64, 64 * 4, 64))]
+walk_left_sprite = [pygame.image.load("sourceimages/Trainer/trainer_left_1.png"),
+             pygame.image.load("sourceimages/Trainer/trainer_left_2.png"),
+             pygame.image.load("sourceimages/Trainer/trainer_left_3.png"),
+             pygame.image.load("sourceimages/Trainer/trainer_left_4.png")]
 
-walk_right = [trainer_sprite.image_at((64 * 0, 128, 64 * 1, 128)),
-              trainer_sprite.image_at((64 * 1, 128, 64 * 2, 128)),
-              trainer_sprite.image_at((64 * 2, 128, 64 * 3, 128)),
-              trainer_sprite.image_at((64 * 3, 128, 64 * 4, 128))]
+walk_right = [pygame.image.load("sourceimages/Trainer/trainer_right_1.png"),
+              pygame.image.load("sourceimages/Trainer/trainer_right_2.png"),
+              pygame.image.load("sourceimages/Trainer/trainer_right_3.png"),
+              pygame.image.load("sourceimages/Trainer/trainer_right_4.png")]
 
-walk_down = [trainer_sprite.image_at((64 * 0, 0, 64 * 1, 64)),
-             trainer_sprite.image_at((64 * 1, 0, 64 * 1.9, 64)),
-             trainer_sprite.image_at((64 * 2, 0, 64 * 2.9, 64)),
-             trainer_sprite.image_at((64 * 3, 0, 64 * 3.9, 64))]
+walk_down = [pygame.image.load("sourceimages/Trainer/trainer_down_1.png"),
+             pygame.image.load("sourceimages/Trainer/trainer_down_2.png"),
+             pygame.image.load("sourceimages/Trainer/trainer_down_3.png"),
+             pygame.image.load("sourceimages/Trainer/trainer_down_4.png")]
 
-walk_up = [trainer_sprite.image_at((64 * 0, 192, 64 * 1, 192)),
-           trainer_sprite.image_at((64 * 1, 192, 64 * 2, 192)),
-           trainer_sprite.image_at((64 * 2, 192, 64 * 3, 192)),
-           trainer_sprite.image_at((64 * 3, 192, 64 * 4, 192))]
+walk_up = [pygame.image.load("sourceimages/Trainer/trainer_up_1.png"),
+           pygame.image.load("sourceimages/Trainer/trainer_up_2.png"),
+           pygame.image.load("sourceimages/Trainer/trainer_up_3.png"),
+           pygame.image.load("sourceimages/Trainer/trainer_up_4.png")]
 
-walk_still = [trainer_sprite.image_at((64 * 0, 192, 64 * 1, 192)),
-              trainer_sprite.image_at((64 * 0, 0, 64 * 1, 64)),
-              trainer_sprite.image_at((64 * 0, 64, 64 * 1, 64)),
-              trainer_sprite.image_at((64 * 0, 128, 64, 128))]
+walk_still = [pygame.image.load("sourceimages/Trainer/trainer_up_1.png"),
+              pygame.image.load("sourceimages/Trainer/trainer_down_1.png"),
+              pygame.image.load("sourceimages/Trainer/trainer_left_1.png"),
+              pygame.image.load("sourceimages/Trainer/trainer_right_1.png")]
 
 bg = [pygame.image.load('sourceimages/spring/grass01ax.png')]
-
 
 def move_forward():
     global player_y, direction, is_moving
@@ -115,7 +114,8 @@ def controls():
 def redraw_game_window():
     global walk_count, frames
     screen.fill(black)
-    screen.blit(bg[bg_area], (0, 0))  # draw background
+    background = pygame.transform.scale(bg[bg_area], (width, height))
+    screen.blit(background, (0, 0))  # draw background
 
     if walk_count + 1 > 4 * frames:
         walk_count = 0
