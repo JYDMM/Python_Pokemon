@@ -5,7 +5,7 @@
 
 import pygame
 import sys
-from SpriteSheet import SpriteSheet
+from sprites import player
 
 pygame.init()
 
@@ -25,77 +25,54 @@ clock = pygame.time.Clock()
 player_x = width / 2
 player_y = height / 2
 
-trainer = "trainer.png"
-trainer_sprite = SpriteSheet(trainer)
+bg_x = - width / 2
+bg_y = - height / 2
+position_quantize_value_x = width / 32
+position_quantize_value_y = height / 32
 
 player_width = 64
 player_height = 64
 vel = 5
-frames = 3
-direction = __up__
-walk_count = 0
-is_moving = False
 
 bg_area = 0
 
-walk_left_sprite = [pygame.image.load("sourceimages/Trainer/trainer_left_1.png"),
-             pygame.image.load("sourceimages/Trainer/trainer_left_2.png"),
-             pygame.image.load("sourceimages/Trainer/trainer_left_3.png"),
-             pygame.image.load("sourceimages/Trainer/trainer_left_4.png")]
-
-walk_right = [pygame.image.load("sourceimages/Trainer/trainer_right_1.png"),
-              pygame.image.load("sourceimages/Trainer/trainer_right_2.png"),
-              pygame.image.load("sourceimages/Trainer/trainer_right_3.png"),
-              pygame.image.load("sourceimages/Trainer/trainer_right_4.png")]
-
-walk_down = [pygame.image.load("sourceimages/Trainer/trainer_down_1.png"),
-             pygame.image.load("sourceimages/Trainer/trainer_down_2.png"),
-             pygame.image.load("sourceimages/Trainer/trainer_down_3.png"),
-             pygame.image.load("sourceimages/Trainer/trainer_down_4.png")]
-
-walk_up = [pygame.image.load("sourceimages/Trainer/trainer_up_1.png"),
-           pygame.image.load("sourceimages/Trainer/trainer_up_2.png"),
-           pygame.image.load("sourceimages/Trainer/trainer_up_3.png"),
-           pygame.image.load("sourceimages/Trainer/trainer_up_4.png")]
-
-walk_still = [pygame.image.load("sourceimages/Trainer/trainer_up_1.png"),
-              pygame.image.load("sourceimages/Trainer/trainer_down_1.png"),
-              pygame.image.load("sourceimages/Trainer/trainer_left_1.png"),
-              pygame.image.load("sourceimages/Trainer/trainer_right_1.png")]
-
 bg = [pygame.image.load('sourceimages/spring/grass01ax.png')]
 
+
 def move_forward():
-    global player_y, direction, is_moving
-    player_y -= vel
-    is_moving = True
-    direction = __up__
+    global player_y, bg_y
+    # player_y -= vel
+    bg_y += vel
+    player.is_moving = True
+    player.direction = __up__
 
 
 def move_backward():
-    global player_y, direction, is_moving
-    player_y += vel
-    is_moving = True
-    direction = __down__
+    global player_y, bg_y
+    # player_y += vel
+    bg_y -= vel
+    player.is_moving = True
+    player.direction = __down__
 
 
 def move_left():
-    global player_x, direction, is_moving
-    player_x -= vel
-    is_moving = True
-    direction = __left__
+    global player_x, bg_x
+    # player_x -= vel
+    bg_x += vel
+    player.is_moving = True
+    player.direction = __left__
 
 
 def move_right():
-    global player_x, direction, is_moving
-    player_x += vel
-    is_moving = True
-    direction = __right__
+    global player_x, bg_x
+    # player_x += vel
+    bg_x -= vel
+    player.is_moving = True
+    player.direction = __right__
 
 
 def stop_moving():
-    global is_moving
-    is_moving = False
+    player.is_moving = False
 
 
 def controls():
@@ -114,26 +91,26 @@ def controls():
 def redraw_game_window():
     global walk_count, frames
     screen.fill(black)
-    background = pygame.transform.scale(bg[bg_area], (width, height))
-    screen.blit(background, (0, 0))  # draw background
+    background = pygame.transform.scale(bg[bg_area], (width * 2, height * 2))
+    screen.blit(background, (bg_x, bg_y))  # draw background
 
-    if walk_count + 1 > 4 * frames:
+    if walk_count + 1 > 4 * player.frames:
         walk_count = 0
 
-    if direction == __left__ and is_moving:
-        screen.blit(walk_left[walk_count // frames], (player_x, player_y))
-        walk_count += 1
-    elif direction == __right__ and is_moving:
-        screen.blit(walk_right[walk_count // frames], (player_x, player_y))
-        walk_count += 1
-    elif direction == __up__ and is_moving:
-        screen.blit(walk_up[walk_count // frames], (player_x, player_y))
-        walk_count += 1
-    elif direction == __down__ and is_moving:
-        screen.blit(walk_down[walk_count//frames], (player_x, player_y))
-        walk_count += 1
+    if player.direction == __left__ and player.is_moving:
+        screen.blit(player.walk_left[walk_count // player.frames], (player_x, player_y))
+        player.walk_count += 1
+    elif player.direction == __right__ and player.is_moving:
+        screen.blit(player.walk_right[walk_count // player.frames], (player_x, player_y))
+        player.walk_count += 1
+    elif player.direction == __up__ and player.is_moving:
+        screen.blit(player.walk_up[walk_count // player.frames], (player_x, player_y))
+        player.walk_count += 1
+    elif player.direction == __down__ and player.is_moving:
+        screen.blit(player.walk_down[walk_count // player.frames], (player_x, player_y))
+        player.walk_count += 1
     else:
-        screen.blit(walk_still[direction], (player_x, player_y))
+        screen.blit(player.still[player.direction], (player_x, player_y))
     pygame.display.flip()
 
 
@@ -142,6 +119,7 @@ run = True
 while run:
     clock.tick(27)
     controls()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit(69)
