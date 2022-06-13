@@ -89,25 +89,24 @@ def controls():
 
 
 def redraw_game_window():
-    global walk_count, frames
     screen.fill(black)
     background = pygame.transform.scale(bg[bg_area], (width * 2, height * 2))
     screen.blit(background, (bg_x, bg_y))  # draw background
 
-    if walk_count + 1 > 4 * player.frames:
-        walk_count = 0
+    if player.walk_count + 1 > 4 * player.frames:
+        player.walk_count = 0
 
     if player.direction == __left__ and player.is_moving:
-        screen.blit(player.walk_left[walk_count // player.frames], (player_x, player_y))
+        screen.blit(player.walk_left[player.walk_count // player.frames], (player_x, player_y))
         player.walk_count += 1
     elif player.direction == __right__ and player.is_moving:
-        screen.blit(player.walk_right[walk_count // player.frames], (player_x, player_y))
+        screen.blit(player.walk_right[player.walk_count // player.frames], (player_x, player_y))
         player.walk_count += 1
     elif player.direction == __up__ and player.is_moving:
-        screen.blit(player.walk_up[walk_count // player.frames], (player_x, player_y))
+        screen.blit(player.walk_up[player.walk_count // player.frames], (player_x, player_y))
         player.walk_count += 1
     elif player.direction == __down__ and player.is_moving:
-        screen.blit(player.walk_down[walk_count // player.frames], (player_x, player_y))
+        screen.blit(player.walk_down[player.walk_count // player.frames], (player_x, player_y))
         player.walk_count += 1
     else:
         screen.blit(player.still[player.direction], (player_x, player_y))
